@@ -100,6 +100,7 @@ class EditProfileScreen extends StatelessWidget {
                             InkWell(
                               onTap: () {
                                 ShopCubit.get(context).uploadProfileImage();
+
                               },
                               child: CircleAvatar(
                                 radius: 18.0,

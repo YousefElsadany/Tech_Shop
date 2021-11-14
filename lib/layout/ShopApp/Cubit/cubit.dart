@@ -83,6 +83,27 @@ class ShopCubit extends Cubit<ShopStates> {
     // return DioHelper.putData(url: UPDATEPROFILE, data: {'image': image});
   }
 
+  void getProfileImage({
+    String? name,
+    String? phone,
+    String? email,
+    String? image,
+  }) {
+    emit(ShopLoadingGetProfileState());
+
+    DioHelper.postData(url: PROFILE, data: {
+      'name': name,
+      'phone': phone,
+      'email': email,
+      'image': image,
+    }).then((value) {
+      profileModel = ShopLoginModel.fromJson(value.data);
+      emit(ShopSuccessGetProfileState());
+      }).catchError((error) {
+        emit(ShopErrorGetProfileState());
+      });
+  }
+
   HomeModel? homeModel;
 
   void getHomeData() {
@@ -115,7 +136,7 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  ProfileModel? profileModel;
+  ShopLoginModel? profileModel;
 
   void getProfile() {
     emit(ShopLoadingGetProfileState());
@@ -124,7 +145,7 @@ class ShopCubit extends Cubit<ShopStates> {
       token: token,
     ).then(
       (value) {
-        profileModel = ProfileModel.fromJson(value.data);
+        profileModel = ShopLoginModel.fromJson(value.data);
         emit(ShopSuccessGetProfileState());
         print(profileModel!.data!.token!);
       },
@@ -153,9 +174,9 @@ class ShopCubit extends Cubit<ShopStates> {
         'image': image,
       },
     ).then((value) {
-      profileModel = ProfileModel.fromJson(value.data);
+      profileModel = ShopLoginModel.fromJson(value.data);
       print('Update Profile ' + profileModel!.status.toString());
-      emit(ShopSuccessUpdateProfileState(profileModel!));
+     // emit(ShopSuccessUpdateProfileState(profileModel!));
     }).catchError((error) {
       emit(ShopErrorUpdateProfileState());
       printFullText('ERROR UPDATE PROFILE ' + error.toString());

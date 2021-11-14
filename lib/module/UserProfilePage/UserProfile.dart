@@ -85,11 +85,7 @@ class UserProfileScreen extends StatelessWidget {
               ),
             ],
           ),
-          body: cubit.profileModel == null ?
-              Center(
-                child: CircularProgressIndicator(),
-              )
-         : SingleChildScrollView(
+          body:  SingleChildScrollView(
             child: Column(
               children: [
                 Container(
@@ -101,6 +97,7 @@ class UserProfileScreen extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 45.0,
+                        backgroundColor: Colors.white,
                         backgroundImage: cubit.profileModel == null
                             ? NetworkImage(
                                 'https://ar.limu.edu.ly/wp-content/uploads/sites/18/2020/10/white-background-2-1-1-300x176.jpg')
