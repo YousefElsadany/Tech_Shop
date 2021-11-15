@@ -102,7 +102,7 @@ class UserProfileScreen extends StatelessWidget {
                             ? NetworkImage(
                                 'https://ar.limu.edu.ly/wp-content/uploads/sites/18/2020/10/white-background-2-1-1-300x176.jpg')
                             : NetworkImage(
-                                '${cubit.profileModel!.data!.image!}',
+                                '${cubit.profileModel!.data.image}',
                                 scale: 1.0,
                               ),
                       ),
@@ -113,7 +113,7 @@ class UserProfileScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            cubit.profileModel!.data!.name!,
+                            cubit.profileModel!.data.name,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 18.0,
@@ -121,7 +121,7 @@ class UserProfileScreen extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            cubit.profileModel!.data!.email!,
+                            cubit.profileModel!.data.email,
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 11.0,

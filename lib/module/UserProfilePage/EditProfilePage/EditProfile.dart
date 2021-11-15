@@ -23,9 +23,9 @@ class EditProfileScreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         ShopCubit cubit = ShopCubit.get(context);
-        nameController.text = cubit.profileModel!.data!.name!;
-        phoneController.text = cubit.profileModel!.data!.phone!;
-        emailController.text = cubit.profileModel!.data!.email!;
+        nameController.text = cubit.profileModel!.data.name;
+        phoneController.text = cubit.profileModel!.data.phone;
+        emailController.text = cubit.profileModel!.data.email;
         var profileImage = ShopCubit.get(context).profileImage;
 
         return Scaffold(
@@ -50,12 +50,12 @@ class EditProfileScreen extends StatelessWidget {
             actions: [
               TextButton(
                   onPressed: () {
-                    if (cubit.profileModel!.status! == true) {
+                    if (cubit.profileModel!.status == true) {
                       ShopCubit.get(context).updateProfile(
                         name: nameController.text,
                         phone: phoneController.text,
                         email: emailController.text,
-                        image: profileImage!.path.toString(),
+                        //image: profileImage!.path.toString(),
                       );
                       Get.back();
                       showTast(
@@ -92,14 +92,18 @@ class EditProfileScreen extends StatelessWidget {
                               radius: 60.0,
                               backgroundImage: profileImage == null
                                   ? NetworkImage(
-                                      cubit.profileModel!.data!.image!,
+                                      cubit.profileModel!.data.image,
                                     )
                                   : FileImage(profileImage, scale: 1.0)
                                       as ImageProvider,
                             ),
                             InkWell(
                               onTap: () {
-                                ShopCubit.get(context).uploadProfileImage();
+                                ShopCubit.get(context).uploadProfileImage(
+                                  name: nameController.text,
+                                  phone: phoneController.text,
+                                  email: emailController.text,
+                                );
 
                               },
                               child: CircleAvatar(

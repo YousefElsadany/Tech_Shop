@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'dart:math';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -65,15 +66,38 @@ class ShopCubit extends Cubit<ShopStates> {
 
   File? profileImage;
   var picker = ImagePicker();
+  Response? response;
 
-  Future<dynamic> uploadProfileImage() async {
+  Future<dynamic> uploadProfileImage(
+  {
+    String? name,
+    String? phone,
+    String? email,
+    String? image,
+  }
+      ) async {
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
     );
 
     if (pickedFile != null) {
-      profileImage = File(pickedFile.path);
-
+      var file=File(pickedFile.path);
+      var response = await DioHelper.postData(
+        url: PROFILE,
+        token: token,
+        data: {
+          'name': name,
+          'phone': phone,
+          'email': email,
+          'image': await MultipartFile.fromFile(
+      file.path,
+      filename: file.path,
+      ),
+        },);
+      // if(response.statusCode==200){
+      //   showTast(text:  "Gates are open########", state: ToastStates.ERROR);
+      //
+      // }
       print(pickedFile.path);
       emit(SuccessUploadPicState());
     } else {
@@ -83,26 +107,26 @@ class ShopCubit extends Cubit<ShopStates> {
     // return DioHelper.putData(url: UPDATEPROFILE, data: {'image': image});
   }
 
-  void getProfileImage({
-    String? name,
-    String? phone,
-    String? email,
-    String? image,
-  }) {
-    emit(ShopLoadingGetProfileState());
-
-    DioHelper.postData(url: PROFILE, data: {
-      'name': name,
-      'phone': phone,
-      'email': email,
-      'image': image,
-    }).then((value) {
-      profileModel = ShopLoginModel.fromJson(value.data);
-      emit(ShopSuccessGetProfileState());
-      }).catchError((error) {
-        emit(ShopErrorGetProfileState());
-      });
-  }
+  // void getProfileImage({
+  //   String? name,
+  //   String? phone,
+  //   String? email,
+  //   String? image,
+  // }) {
+  //   emit(ShopLoadingGetProfileState());
+  //
+  //   DioHelper.postData(url: PROFILE, data: {
+  //     'name': name,
+  //     'phone': phone,
+  //     'email': email,
+  //     'image': image,
+  //   }).then((value) {
+  //     profileModel = ProfileModel.fromJson(value.data);
+  //     emit(ShopSuccessGetProfileState());
+  //     }).catchError((error) {
+  //       emit(ShopErrorGetProfileState());
+  //     });
+  // }
 
   HomeModel? homeModel;
 
@@ -136,7 +160,7 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  ShopLoginModel? profileModel;
+  ProfileModel? profileModel;
 
   void getProfile() {
     emit(ShopLoadingGetProfileState());
@@ -145,9 +169,9 @@ class ShopCubit extends Cubit<ShopStates> {
       token: token,
     ).then(
       (value) {
-        profileModel = ShopLoginModel.fromJson(value.data);
+        profileModel = ProfileModel.fromJson(value.data);
         emit(ShopSuccessGetProfileState());
-        print(profileModel!.data!.token!);
+        print(profileModel!.data.token);
       },
     ).catchError(
       (error) {
@@ -174,7 +198,7 @@ class ShopCubit extends Cubit<ShopStates> {
         'image': image,
       },
     ).then((value) {
-      profileModel = ShopLoginModel.fromJson(value.data);
+      profileModel = ProfileModel.fromJson(value.data);
       print('Update Profile ' + profileModel!.status.toString());
      // emit(ShopSuccessUpdateProfileState(profileModel!));
     }).catchError((error) {

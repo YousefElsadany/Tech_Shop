@@ -22,9 +22,9 @@ class Complaintscreen extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         ShopCubit cubit = ShopCubit.get(context);
-        nameController.text = cubit.profileModel!.data!.name!;
-        phoneController.text = cubit.profileModel!.data!.phone!;
-        emailController.text = cubit.profileModel!.data!.email!;
+        nameController.text = cubit.profileModel!.data.name;
+        phoneController.text = cubit.profileModel!.data.phone;
+        emailController.text = cubit.profileModel!.data.email;
         return Scaffold(
           backgroundColor: fullBackgroundColor,
           appBar: AppBar(
