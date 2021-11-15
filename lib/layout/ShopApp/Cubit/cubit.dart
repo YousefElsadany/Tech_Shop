@@ -79,21 +79,23 @@ class ShopCubit extends Cubit<ShopStates> {
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
     );
-
+    var formData = FormData.fromMap({
+      'name': name,
+      'phone': phone,
+      'email': email,
+      'image': await MultipartFile.fromFile(
+        profileImage!.path,
+        filename: profileImage!.path,
+      ),
+    });
     if (pickedFile != null) {
-      var file=File(pickedFile.path);
-      var response = await DioHelper.postData(
+
+       response = await DioHelper.postData(
         url: PROFILE,
         token: token,
-        data: {
-          'name': name,
-          'phone': phone,
-          'email': email,
-          'image': await MultipartFile.fromFile(
-      file.path,
-      filename: file.path,
-      ),
-        },);
+        data: formData as Map<String,dynamic>,
+       );
+       profileImage =File(pickedFile.path);
       // if(response.statusCode==200){
       //   showTast(text:  "Gates are open########", state: ToastStates.ERROR);
       //
