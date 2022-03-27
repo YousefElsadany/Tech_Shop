@@ -1,9 +1,8 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart' as path;
 import 'package:tech_shop/layout/ShopApp/Cubit/cubit.dart';
 import 'package:tech_shop/layout/ShopApp/Cubit/states.dart';
@@ -55,7 +54,6 @@ class EditProfileScreen extends StatelessWidget {
                         name: nameController.text,
                         phone: phoneController.text,
                         email: emailController.text,
-                        //image: profileImage!.path.toString(),
                       );
                       Get.back();
                       showTast(
@@ -63,7 +61,7 @@ class EditProfileScreen extends StatelessWidget {
                     } else {
                       showTast(
                           text: 'Some Thing is wrong',
-                          state: ToastStates.SUCCESS);
+                          state: ToastStates.ERROR);
                     }
                   },
                   child: Text(
@@ -90,20 +88,25 @@ class EditProfileScreen extends StatelessWidget {
                           children: [
                             CircleAvatar(
                               radius: 60.0,
+                              backgroundColor: Colors.white,
                               backgroundImage: profileImage == null
                                   ? NetworkImage(
-                                      cubit.profileModel!.data.image,
+                                  'https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_people_person_avatar_white_tone_icon_159363.png'
                                     )
                                   : FileImage(profileImage, scale: 1.0)
                                       as ImageProvider,
+                              // child: ShopCubit.get(context)
+                              //     .profileModel!
+                              //     .data
+                              //     .image !=null
+                              //     ?Image(image: NetworkImage(
+                              //     '${ShopCubit.get(context).profileModel!.data.image}'),)
+                              //     : Image(image: NetworkImage(
+                              //     'https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_people_person_avatar_white_tone_icon_159363.png'),),
                             ),
                             InkWell(
                               onTap: () {
-                                ShopCubit.get(context).uploadProfileImage(
-                                  name: nameController.text,
-                                  phone: phoneController.text,
-                                  email: emailController.text,
-                                );
+                                ShopCubit.get(context).uploadProfileImage();
 
                               },
                               child: CircleAvatar(

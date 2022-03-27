@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -98,14 +100,21 @@ class UserProfileScreen extends StatelessWidget {
                       CircleAvatar(
                         radius: 45.0,
                         backgroundColor: Colors.white,
-                        backgroundImage: cubit.profileModel == null
-                            ? NetworkImage(
-                                'https://ar.limu.edu.ly/wp-content/uploads/sites/18/2020/10/white-background-2-1-1-300x176.jpg')
-                            : NetworkImage(
-                                '${cubit.profileModel!.data.image}',
-                                scale: 1.0,
-                              ),
+                        backgroundImage: ShopCubit.get(context).profileImage == null
+                      ? NetworkImage(
+                            'https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_people_person_avatar_white_tone_icon_159363.png'
+                      )
+                          : FileImage(ShopCubit.get(context).profileImage!, scale: 1.0)
+                        as ImageProvider,
                       ),
+                      //   child: ShopCubit.get(context)
+                      //       .profileModel!
+                      //       .data
+                      //       .image !=null
+                      //       ?Image(image: NetworkImage(
+                      //       '${ShopCubit.get(context).profileModel!.data.image}'),)
+                      //       : Image(image: NetworkImage(
+                      //       'https://cdn.icon-icons.com/icons2/2643/PNG/512/male_man_people_person_avatar_white_tone_icon_159363.png'),),
                       SizedBox(
                         width: 20.0,
                       ),

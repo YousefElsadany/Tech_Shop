@@ -10,6 +10,7 @@ import 'package:tech_shop/layout/ShopApp/Cubit/cubit.dart';
 import 'package:tech_shop/layout/ShopApp/Cubit/states.dart';
 import 'package:tech_shop/model/CategoriesModel.dart';
 import 'package:tech_shop/model/ShopModel.dart';
+import 'package:tech_shop/module/AdderessPage/MapPage.dart';
 import 'package:tech_shop/module/CategoryDetails/CategoryDetails.dart';
 import 'package:tech_shop/module/ProductDetailsPage/ProductDetails.dart';
 import 'package:tech_shop/shared/componants/componants.dart';
@@ -48,14 +49,38 @@ class HomeScreen extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        return ConditionalBuilder(
-          condition: ShopCubit.get(context).homeModel != null &&
-              ShopCubit.get(context).categoriesModel != null,
-          builder: (context) => productCustom(ShopCubit.get(context).homeModel!,
-              ShopCubit.get(context).categoriesModel!, context),
-          fallback: (context) => Center(
-            child: CircularProgressIndicator(),
-          ),
+        return Stack(
+          alignment: AlignmentDirectional.bottomEnd,
+          children: [
+            ConditionalBuilder(
+              condition: ShopCubit.get(context).homeModel != null &&
+                  ShopCubit.get(context).categoriesModel != null,
+              builder: (context) => productCustom(ShopCubit.get(context).homeModel!,
+                  ShopCubit.get(context).categoriesModel!, context),
+              fallback: (context) => Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: FloatingActionButton.extended(
+                heroTag: "btn1",
+                onPressed: ()  {
+                  Get.to(MapsPage());
+                },
+                label: Row(
+                  children: [
+                    Icon(Icons.map_outlined,color:shopColor,),
+                    SizedBox(width: 5.0,),
+                    Text('Map',style: TextStyle(color: shopColor),),
+                  ],
+                ),
+                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                backgroundColor: Colors.white,
+                //icon: const Icon(Icons.map, size: 30.0),
+              ),
+            ),
+          ],
         );
       },
     );

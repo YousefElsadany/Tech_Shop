@@ -86,11 +86,7 @@ class ShopErrorGetCategroyDetailsState extends ShopStates {}
 
 class ShopLoadingUpdateProfileState extends ShopStates {}
 
-class ShopSuccessUpdateProfileState extends ShopStates {
-  final ProfileModel profileModel;
-
-  ShopSuccessUpdateProfileState(this.profileModel);
-}
+class ShopSuccessUpdateProfileState extends ShopStates {}
 
 class ShopErrorUpdateProfileState extends ShopStates {}
 

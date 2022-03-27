@@ -125,7 +125,9 @@ class ShopLayout extends StatelessWidget {
             rightCornerRadius: 32,
           ),
           body: lauoutCubit.screen[lauoutCubit.currentIndex],
+
         );
+
       },
     );
   }
