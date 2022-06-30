@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:tech_shop/layout/ShopApp/Cubit/cubit.dart';
 import 'package:tech_shop/layout/ShopApp/Cubit/states.dart';
 import 'package:tech_shop/model/AderessModel.dart';
+import 'package:tech_shop/module/AdderessPage/MapPage.dart';
 import 'package:tech_shop/shared/componants/componants.dart';
 import 'package:tech_shop/shared/style/colors.dart';
 
@@ -46,6 +47,7 @@ class Adderesscreen extends StatelessWidget {
                       Get.to(AddLocationScreen(
                         isEdit: false,
                       ));
+
                     },
                     icon: Icon(
                       Icons.add_location_alt_outlined,

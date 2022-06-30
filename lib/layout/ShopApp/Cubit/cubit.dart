@@ -65,48 +65,20 @@ class ShopCubit extends Cubit<ShopStates> {
   Map<int, bool> cart = {};
 
   File? profileImage;
-  var picker = ImagePicker();
-  Response? response;
+  final picker = ImagePicker();
 
-  Future<dynamic> uploadProfileImage(
-  {
-    String? name,
-    String? phone,
-    String? email,
-    String? image,
-  }
-      ) async {
+  Future<dynamic> uploadProfileImage() async {
     final pickedFile = await picker.pickImage(
       source: ImageSource.gallery,
     );
-    var formData = FormData.fromMap({
-      'name': name,
-      'phone': phone,
-      'email': email,
-      'image': await MultipartFile.fromFile(
-        profileImage!.path,
-        filename: profileImage!.path,
-      ),
-    });
     if (pickedFile != null) {
-
-       response = await DioHelper.postData(
-        url: PROFILE,
-        token: token,
-        data: formData as Map<String,dynamic>,
-       );
        profileImage =File(pickedFile.path);
-      // if(response.statusCode==200){
-      //   showTast(text:  "Gates are open########", state: ToastStates.ERROR);
-      //
-      // }
       print(pickedFile.path);
       emit(SuccessUploadPicState());
     } else {
       print('No image selected.');
       emit(ErrorUploadPicState());
     }
-    // return DioHelper.putData(url: UPDATEPROFILE, data: {'image': image});
   }
 
   // void getProfileImage({
@@ -183,12 +155,11 @@ class ShopCubit extends Cubit<ShopStates> {
     );
   }
 
-  ShopLoginModel? loginModel;
+
   void updateProfile({
     String? name,
     String? phone,
     String? email,
-    String? image,
   }) {
     DioHelper.putData(
       url: UPDATEPROFILE,
@@ -197,12 +168,12 @@ class ShopCubit extends Cubit<ShopStates> {
         'name': name,
         'phone': phone,
         'email': email,
-        'image': image,
+        //'image': Uri.file(profileImage!.path).pathSegments.last.,
       },
     ).then((value) {
       profileModel = ProfileModel.fromJson(value.data);
       print('Update Profile ' + profileModel!.status.toString());
-     // emit(ShopSuccessUpdateProfileState(profileModel!));
+      emit(ShopSuccessUpdateProfileState());
     }).catchError((error) {
       emit(ShopErrorUpdateProfileState());
       printFullText('ERROR UPDATE PROFILE ' + error.toString());
