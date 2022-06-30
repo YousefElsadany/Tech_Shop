@@ -70,7 +70,7 @@ class HomeScreen extends StatelessWidget {
                 },
                 label: Row(
                   children: [
-                    Icon(Icons.map_outlined,color:shopColor,),
+                    Icon(Icons.map,color:shopColor,),
                     SizedBox(width: 5.0,),
                     Text('Map',style: TextStyle(color: shopColor),),
                   ],
